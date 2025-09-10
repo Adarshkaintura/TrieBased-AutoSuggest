@@ -68,6 +68,12 @@ java TrieBasedAuto.AutocompleteGUI words.txt
 
 ## 📸 Screenshots
 
+### Main GUI Window
+![Screenshot 1](https://github.com/Adarshkaintura/TrieBased-AutoSuggest/blob/main/Screenshot%20from%202025-09-10%2016-02-47.png?raw=true)
+
+### Dark Mode
+![Screenshot 2](https://github.com/Adarshkaintura/TrieBased-AutoSuggest/blob/main/Screenshot%20from%202025-09-10%2016-03-11.png?raw=true)
+
 ### CLI
 
 ```
