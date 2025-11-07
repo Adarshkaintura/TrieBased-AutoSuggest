@@ -34,7 +34,6 @@ public class Trie {
         return curr;
     }
 
-    // Returns up to limit suggestions for the given prefix, ordered by frequency desc then lexicographic
     public List<String> autocomplete(String prefix, int limit) {
         prefix = (prefix == null) ? "" : prefix.toLowerCase();
         TrieNode node = getNode(prefix);
@@ -66,7 +65,6 @@ public class Trie {
         }
     }
 
-    // increment frequency when a word is "selected"
     public boolean incrementFrequency(String word) {
         TrieNode node = getNode(word == null ? "" : word.toLowerCase());
         if (node != null && node.isEndOfWord) {
@@ -76,7 +74,6 @@ public class Trie {
         return false;
     }
 
-    // helper class to pair words with their freq
     public static class WordFreq {
         String word;
         int freq;
