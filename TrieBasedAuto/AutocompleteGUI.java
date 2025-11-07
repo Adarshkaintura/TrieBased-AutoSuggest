@@ -29,13 +29,12 @@ public class AutocompleteGUI {
         frame.setSize(800, 500);
         frame.setLayout(new BorderLayout(10, 10));
 
-        // 🔹 Search bar
+      
         JPanel searchPanel = new JPanel(new BorderLayout(5, 5));
         textField = new JTextField();
         searchPanel.add(new JLabel("🔍 Search:"), BorderLayout.WEST);
         searchPanel.add(textField, BorderLayout.CENTER);
 
-        // 🔹 Suggestion list
         listModel = new DefaultListModel<>();
         list = new JList<>(listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -43,36 +42,29 @@ public class AutocompleteGUI {
         JScrollPane scroll = new JScrollPane(list);
         scroll.setBorder(BorderFactory.createTitledBorder("Suggestions"));
 
-        // 🔹 History area (words user selects)
         historyArea = new JTextArea(10, 20);
         historyArea.setEditable(false);
         JScrollPane historyScroll = new JScrollPane(historyArea);
         historyScroll.setBorder(BorderFactory.createTitledBorder("History"));
 
-        // 🔹 Meaning area
         meaningArea = new JTextArea(10, 30);
         meaningArea.setLineWrap(true);
         meaningArea.setWrapStyleWord(true);
         meaningArea.setEditable(false);
         JScrollPane meaningScroll = new JScrollPane(meaningArea);
-        meaningScroll.setBorder(BorderFactory.createTitledBorder("Meaning"));
-
-        // 🔹 Right panel contains history + meaning
+        meaningScroll.setBorder(BorderFactory.create
+                                
         JPanel rightPanel = new JPanel(new BorderLayout(10, 10));
         rightPanel.add(historyScroll, BorderLayout.NORTH);
         rightPanel.add(meaningScroll, BorderLayout.CENTER);
-
-        // 🔹 Status bar
         statusBar = new JLabel("Type something to get suggestions...");
         statusBar.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        // 🔹 Add components to frame
         frame.add(searchPanel, BorderLayout.NORTH);
         frame.add(scroll, BorderLayout.CENTER);
         frame.add(rightPanel, BorderLayout.EAST);
         frame.add(statusBar, BorderLayout.SOUTH);
 
-        // 🔹 Menu bar with dark mode toggle
         JMenuBar menuBar = new JMenuBar();
         JMenu viewMenu = new JMenu("View");
         JMenuItem darkModeItem = new JMenuItem("Toggle Dark Mode");
@@ -81,7 +73,6 @@ public class AutocompleteGUI {
         menuBar.add(viewMenu);
         frame.setJMenuBar(menuBar);
 
-        // 🔹 Listeners
         textField.getDocument().addDocumentListener(new DocumentListener() {
             public void insertUpdate(DocumentEvent e) { showSuggestions(); }
             public void removeUpdate(DocumentEvent e) { showSuggestions(); }
@@ -105,7 +96,6 @@ public class AutocompleteGUI {
                         acceptSuggestion(list.getSelectedValue());
                         e.consume();
                     } else {
-                        // If enter pressed with no selection, try to fetch meaning of typed text
                         String typed = textField.getText().trim();
                         if (!typed.isEmpty()) fetchAndShowMeaning(typed);
                     }
@@ -120,14 +110,12 @@ public class AutocompleteGUI {
                     if (val != null) acceptSuggestion(val);
                 }
                 if (e.getClickCount() == 2) {
-                    // double-click -> also fetch meaning
                     String val = list.getSelectedValue();
                     if (val != null) fetchAndShowMeaning(val);
                 }
             }
         });
 
-        // right-click menu to get meaning for currently selected or typed word
         JPopupMenu popup = new JPopupMenu();
         JMenuItem getMeaningItem = new JMenuItem("Get Meaning");
         getMeaningItem.addActionListener(e -> {
@@ -178,7 +166,6 @@ public class AutocompleteGUI {
     private void fetchAndShowMeaning(String word) {
         meaningArea.setText("Loading meaning for '" + word + "'...");
         statusBar.setText("Fetching meaning...");
-        // Use SwingWorker so UI doesn't freeze
         new SwingWorker<String, Void>() {
             @Override
             protected String doInBackground() {
