@@ -6,7 +6,6 @@ import java.util.regex.*;
 
 public class DictionaryFetcher {
 
-    // Returns a friendly text (first definition + example if present) or an error message.
     public static String fetchMeaning(String word) {
         if (word == null || word.trim().isEmpty()) return "No word provided.";
         String encoded;
@@ -46,16 +45,13 @@ public class DictionaryFetcher {
         }
     }
 
-    // Very small extractor: looks for "definition":"...". Returns first match plus example if available.
     private static String extractFirstDefinition(String json) {
         if (json == null || json.isEmpty()) return "No response.";
 
-        // Check for API error message (dictionaryapi returns {"title":...} on not found)
         if (json.contains("\"title\"") && json.contains("No Definitions Found")) {
             return "No definition found for this word.";
         }
 
-        // Pattern for "definition":"...."
         Pattern defPattern = Pattern.compile("\"definition\"\\s*:\\s*\"([^\"]+)\"", Pattern.CASE_INSENSITIVE);
         Matcher defMatcher = defPattern.matcher(json);
         String definition = null;
@@ -63,7 +59,6 @@ public class DictionaryFetcher {
             definition = defMatcher.group(1);
         }
 
-        // Pattern for "example":"...."
         Pattern exPattern = Pattern.compile("\"example\"\\s*:\\s*\"([^\"]+)\"", Pattern.CASE_INSENSITIVE);
         Matcher exMatcher = exPattern.matcher(json);
         String example = null;
@@ -72,8 +67,6 @@ public class DictionaryFetcher {
         }
 
         if (definition == null) {
-            // fallback: try to capture a short "meaning" like word/phonetics/etc.
-            // Attempt to capture "word":"..."
             Pattern wPattern = Pattern.compile("\"word\"\\s*:\\s*\"([^\"]+)\"");
             Matcher wMatcher = wPattern.matcher(json);
             if (wMatcher.find()) {
