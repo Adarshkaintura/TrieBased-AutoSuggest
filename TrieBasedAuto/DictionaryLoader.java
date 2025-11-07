@@ -3,7 +3,6 @@ package TrieBasedAuto;
 import java.io.*;
 
 public class DictionaryLoader {
-    // file format: "word" or "word <frequency>"
     public static void loadFromFile(String filepath, Trie trie) throws IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
             String line;
